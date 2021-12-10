@@ -1,0 +1,42 @@
+package com.p4pijk.carrental.service.user;
+
+import com.p4pijk.carrental.dao.user.UserDao;
+import com.p4pijk.carrental.model.user.User;
+import org.apache.log4j.Logger;
+
+import java.util.List;
+
+public class UserService {
+
+    private static final Logger log = Logger.getLogger(UserService.class);
+    private final UserDao userDao;
+
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public boolean signUp(User user) {
+        log.info("Signup new user");
+        return user != null && userDao.save(user).getId() != -1;
+    }
+
+    public User getUserByCredentials(String login, String password) {
+        log.info("Retrieving user from database by email and password");
+        return userDao.getUserByLoginAndPassword(login, password);
+    }
+
+    public List<User> getAllUsers() {
+        log.info("Retrieving all users from database");
+        return userDao.getAll();
+    }
+
+    public User getUserById(long userId) {
+        log.info("Retrieving user by id");
+        return userDao.get(userId);
+    }
+
+    public boolean topUpUserBalance(long userId, double balance) {
+        log.info("Top up user balance by user id");
+        return userDao.topUpBalance(userId, balance);
+    }
+}
