@@ -49,7 +49,7 @@ public class LoginCommand implements ServletCommand {
         if (login != null && password != null) {
             User user = userService.getUserByCredentials(login, password);
 
-            if (user != null) {
+            if (user != null && user.isStatus()) {
                 UserUtil.putToSession(req, user);
                 CarUtil.setFilterToSession(req);
 
@@ -68,7 +68,9 @@ public class LoginCommand implements ServletCommand {
                     case ADMIN:
                         log.info("Return all cars info");
                         List<Car> cars = carService.getAllCars();
+                        List<User> users = userService.getAllUsers();
                         req.setAttribute("cars", cars);
+                        req.setAttribute("users", users);
                         log.info("Redirecting to admin page");
                         resultPage = adminPage;
                         break;

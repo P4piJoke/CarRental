@@ -4,7 +4,7 @@ public enum QUERY {
 
     // User queries
     GET_USER("SELECT * FROM user WHERE id=?"),
-    GET_ALL_USERS("SELECT * FROM user WHERE role_id != 3"),
+    GET_ALL_USERS("SELECT * FROM user WHERE role_id = 1"),
     CREATE_USER("INSERT INTO user SET user_name = ?," +
             "user_surname = ?," +
             "email = ?," +
@@ -16,6 +16,9 @@ public enum QUERY {
     GET_USER_BY_LOGIN_AND_PASSWORD("SELECT * FROM user WHERE " +
             "login = ? " +
             "AND password = ? ;"),
+    CHANGE_USER_STATUS("UPDATE user SET " +
+            "user_status = ? " +
+            "WHERE id = ?"),
 
     // Car queries
     CREATE_CAR("INSERT INTO car SET " +

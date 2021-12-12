@@ -9,14 +9,14 @@ import java.sql.SQLException;
 
 public class ReceiptUtil {
 
-    public static Receipt createNewReceipt(String... param) {
+    public static Receipt createNewReceipt(double cost, String... param) {
         return Receipt.builder()
                 .passport(Integer.parseInt(param[0]))
                 .rentOption(RentOption.valueOf(param[1]))
                 .duration(param[2])
                 .carId(Long.parseLong(param[3]))
                 .userId(Long.parseLong(param[4]))
-                .billCost(0)
+                .billCost(cost)
                 .repairBill(0)
                 .comment("")
                 .orderStatus(OrderStatus.PENDING)

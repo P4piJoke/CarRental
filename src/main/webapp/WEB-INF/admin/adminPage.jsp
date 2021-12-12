@@ -22,10 +22,11 @@
     </p>
     <p>
         <a href="${pageContext.request.contextPath}/addNewCar"><strong>Add car</strong></a>
-
+        <strong> | </strong>
         <a href="${pageContext.request.contextPath}/addManager"><strong>New manager</strong></a>
     </p>
-    <form action="${pageContext.request.contextPath}/deleteCar" method="post">
+    <label for="allCars">Cars</label>
+    <form id="allCars" action="${pageContext.request.contextPath}/deleteCar" method="post">
         <table>
             <c:forEach items="${cars}" var = "car">
                 <tr>
@@ -33,6 +34,26 @@
                         <c:out value="${car}"/>
                         <a href="${pageContext.request.contextPath}/editCar?carId=${car.getId()}">Edit</a>
                         <button type="submit" name="carId" value="${car.getId()}">Delete</button>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </form>
+    <label for="allUsers">Users</label>
+    <form id="allUsers" action="${pageContext.request.contextPath}/changeStatus" method="post">
+        <table>
+            <c:forEach items="${users}" var = "user_unit">
+                <tr>
+                    <td>
+                        <c:out value="${user_unit}"/>
+                        <c:choose>
+                            <c:when test="${user_unit.isStatus()}">
+                                <button type="submit" name="userId" value="${user_unit.getId()}">Block</button>
+                            </c:when>
+                            <c:otherwise>
+                                <button type="submit" name="userId" value="${user_unit.getId()}">Unblock</button>
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
             </c:forEach>

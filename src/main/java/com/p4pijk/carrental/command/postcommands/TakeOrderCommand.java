@@ -2,9 +2,12 @@ package com.p4pijk.carrental.command.postcommands;
 
 import com.p4pijk.carrental.command.ServletCommand;
 import com.p4pijk.carrental.command.getcommands.TakeOrderGetCommand;
+import com.p4pijk.carrental.dao.car.CarDaoImpl;
 import com.p4pijk.carrental.dao.receipt.ReceiptDaoImpl;
+import com.p4pijk.carrental.model.car.Car;
 import com.p4pijk.carrental.model.receipt.Receipt;
 import com.p4pijk.carrental.model.receipt.RentOption;
+import com.p4pijk.carrental.service.car.CarService;
 import com.p4pijk.carrental.service.receipt.ReceiptService;
 import com.p4pijk.carrental.util.MappingProperties;
 import com.p4pijk.carrental.util.ReceiptUtil;
@@ -25,10 +28,12 @@ public class TakeOrderCommand implements ServletCommand {
 
     private static final Logger log = Logger.getLogger(TakeOrderCommand.class);
     private final ReceiptService receiptService;
+    private final CarService carService;
     private final String mainPage;
     private final String takeOrderPage;
 
     public TakeOrderCommand() {
+        carService = new CarService(CarDaoImpl.getInstance());
         receiptService = new ReceiptService(ReceiptDaoImpl.getInstance());
 
         MappingProperties properties = MappingProperties.getInstance();
@@ -48,7 +53,9 @@ public class TakeOrderCommand implements ServletCommand {
         String userId = req.getParameter("userId");
         if (isaNewOrder(pass, option, duration, carId, userId)) {
             log.info("Creating new order");
-            Receipt receipt = ReceiptUtil.createNewReceipt(pass, option, duration, carId, userId);
+            Car car = carService.getCarById(Long.parseLong(carId));
+            Receipt receipt =
+                    ReceiptUtil.createNewReceipt(car.getCost(), pass, option, duration, carId, userId);
             if (receiptService.createRecipe(receipt)) {
                 log.info("Creating new order was successful");
                 resultPage = mainPage;
@@ -66,11 +73,11 @@ public class TakeOrderCommand implements ServletCommand {
         }
         return i == param.length && checkDate(param[2]);
     }
-    
-    private boolean checkDate(String date){
+
+    private boolean checkDate(String date) {
         LocalDate now = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate inputDate = LocalDate.parse(date,formatter);
+        LocalDate inputDate = LocalDate.parse(date, formatter);
         return inputDate.isAfter(now);
     }
 }

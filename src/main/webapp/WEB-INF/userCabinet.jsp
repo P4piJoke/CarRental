@@ -25,7 +25,6 @@
         <a href="${pageContext.request.contextPath}/logout">LogOut</a>
     </p>
     <p>
-        <strong>Status</strong>: ${user.isStatus()} <br>
         <strong>Balance</strong>: ${user.getBalance()}
         <a href="${pageContext.request.contextPath}/topUp?userId=${user.getId()}">
             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAxMmMwIDYuNjI3IDUuMzczIDEyIDEyIDEyczEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyLTEyIDUuMzczLTEyIDEyem0xOC0xaC00djdoLTR2LTdoLTRsNi02IDYgNnoiLz48L3N2Zz4=" alt="Top up">

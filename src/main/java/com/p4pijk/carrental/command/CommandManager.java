@@ -1,6 +1,7 @@
 package com.p4pijk.carrental.command;
 
 import com.p4pijk.carrental.command.admin.AdminPage;
+import com.p4pijk.carrental.command.admin.ChangeUserStatus;
 import com.p4pijk.carrental.command.admin.DeleteCar;
 import com.p4pijk.carrental.command.getcommands.AddManagerGetCommand;
 import com.p4pijk.carrental.command.getcommands.AddNewCarGetCommand;
@@ -67,6 +68,7 @@ public class CommandManager {
         postCommands.put("/addManager", new AddManagerCommand());
         postCommands.put("/takeOrder",new TakeOrderCommand());
         postCommands.put("/topUp", new TopUpCommand());
+        postCommands.put("/changeStatus", new ChangeUserStatus());
     }
 
     public ServletCommand getGetCommand(HttpServletRequest req) {

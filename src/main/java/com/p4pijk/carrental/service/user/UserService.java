@@ -39,4 +39,9 @@ public class UserService {
         log.info("Top up user balance by user id");
         return userDao.topUpBalance(userId, balance);
     }
+
+    public boolean changeUserStatus(long userId, boolean status) {
+        log.info("Change user status by id and status");
+        return userDao.changeStatus(userId, status);
+    }
 }

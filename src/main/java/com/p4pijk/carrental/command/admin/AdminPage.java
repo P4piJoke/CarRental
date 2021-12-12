@@ -4,6 +4,7 @@ import com.p4pijk.carrental.command.ServletCommand;
 import com.p4pijk.carrental.dao.car.CarDaoImpl;
 import com.p4pijk.carrental.dao.user.UserDaoImpl;
 import com.p4pijk.carrental.model.car.Car;
+import com.p4pijk.carrental.model.user.User;
 import com.p4pijk.carrental.service.car.CarService;
 import com.p4pijk.carrental.service.user.UserService;
 import com.p4pijk.carrental.util.MappingProperties;
@@ -32,6 +33,8 @@ public class AdminPage implements ServletCommand {
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         List<Car> cars = carService.getAllCars();
         req.setAttribute("cars", cars);
+        List<User> users = userService.getAllUsers();
+        req.setAttribute("users", users);
         log.info("Executing admin page get command");
         return adminPage;
     }

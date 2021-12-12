@@ -20,4 +20,9 @@ public class User {
     private boolean status;
     private UserRole userRole;
     private double balance;
+
+    @Override
+    public String toString() {
+        return name + ' ' + surname + ' ' + email + ' ' /*+ userRole*/ + ' ' + ((status)?"Active":"Blocked");
+    }
 }

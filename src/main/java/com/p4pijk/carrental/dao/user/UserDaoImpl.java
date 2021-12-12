@@ -129,12 +129,31 @@ public class UserDaoImpl implements UserDao {
             statement.setDouble(1, balance);
             statement.setLong(2, userId);
             int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0){
+            if (affectedRows == 0) {
                 log.info("Top up was failed");
                 return false;
-            }
-            else{
+            } else {
                 log.info("Top up was successful");
+                return true;
+            }
+        } catch (SQLException exception) {
+            log.error(exception);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean changeStatus(long userId, boolean status) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(QUERY.CHANGE_USER_STATUS.query())) {
+            statement.setBoolean(1, status);
+            statement.setLong(2, userId);
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows == 0) {
+                log.info("Change status was failed");
+                return false;
+            } else {
+                log.info("Change status was successful");
                 return true;
             }
         } catch (SQLException exception) {

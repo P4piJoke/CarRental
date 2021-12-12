@@ -64,8 +64,22 @@ CREATE TABLE IF NOT EXISTS `car_rental_db`.`car` (
     FOREIGN KEY (`class_id`)
     REFERENCES `car_rental_db`.`quality_class` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 24
+AUTO_INCREMENT = 25
 DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `car_rental_db`.`receipt_status`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `car_rental_db`.`receipt_status` ;
+
+CREATE TABLE IF NOT EXISTS `car_rental_db`.`receipt_status` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
 
 
 -- -----------------------------------------------------
@@ -110,25 +124,14 @@ CREATE TABLE IF NOT EXISTS `car_rental_db`.`user` (
   `user_status` TINYINT NOT NULL,
   `user_balance` DECIMAL(9,2) UNSIGNED ZEROFILL NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `password_UNIQUE` (`password` ASC) VISIBLE,
+  UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE,
   INDEX `fk_user_user_role_idx` (`role_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_user_role`
     FOREIGN KEY (`role_id`)
     REFERENCES `car_rental_db`.`user_role` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 33
+AUTO_INCREMENT = 39
 DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `car_rental_db`.`receipt_status`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `car_rental_db`.`receipt_status` ;
-
-CREATE TABLE IF NOT EXISTS `car_rental_db`.`receipt_status` (
-  `id` INT NOT NULL,
-  `name` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`id`));
 
 
 -- -----------------------------------------------------
@@ -144,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `car_rental_db`.`receipt` (
   `option_id` INT NOT NULL,
   `rent_duration` DATE NOT NULL,
   `status_id` INT NOT NULL,
-  `receipt_comm` TEXT NULL,
+  `receipt_comm` TEXT NULL DEFAULT NULL,
   `bill_cost` DECIMAL(9,2) UNSIGNED ZEROFILL NOT NULL,
   `remont_bill` DECIMAL(9,2) UNSIGNED ZEROFILL NOT NULL,
   PRIMARY KEY (`id`),
@@ -153,6 +156,9 @@ CREATE TABLE IF NOT EXISTS `car_rental_db`.`receipt` (
   INDEX `fk_user_has_car_user1_idx` (`user_id` ASC) VISIBLE,
   INDEX `fk_receipt_rent_option1_idx` (`option_id` ASC) VISIBLE,
   INDEX `fk_receipt_receipt_status2_idx` (`status_id` ASC) VISIBLE,
+  CONSTRAINT `fk_receipt_receipt_status2`
+    FOREIGN KEY (`status_id`)
+    REFERENCES `car_rental_db`.`receipt_status` (`id`),
   CONSTRAINT `fk_receipt_rent_option1`
     FOREIGN KEY (`option_id`)
     REFERENCES `car_rental_db`.`rent_option` (`id`),
@@ -161,14 +167,9 @@ CREATE TABLE IF NOT EXISTS `car_rental_db`.`receipt` (
     REFERENCES `car_rental_db`.`car` (`id`),
   CONSTRAINT `fk_user_has_car_user1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `car_rental_db`.`user` (`id`),
-  CONSTRAINT `fk_receipt_receipt_status2`
-    FOREIGN KEY (`status_id`)
-    REFERENCES `car_rental_db`.`receipt_status` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `car_rental_db`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 10
 DEFAULT CHARACTER SET = utf8mb3;
 
 
