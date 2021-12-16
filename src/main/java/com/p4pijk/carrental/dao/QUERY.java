@@ -72,6 +72,14 @@ public enum QUERY {
             "WHERE id = ?"),
     SET_RECEIPT_STATUS("UPDATE receipt SET " +
             "status_id = ? " +
+            "WHERE id = ?"),
+    MAKE_ORDER_REJECTED("UPDATE receipt SET " +
+            "status_id = ?, " +
+            "receipt_comm = ? " +
+            "WHERE id = ?"),
+    MAKE_ORDER_REPAIR_ACTIVE("UPDATE receipt SET " +
+            "status_id = ?, " +
+            "remont_bill = ? " +
             "WHERE id = ?");
 
 

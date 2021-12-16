@@ -29,14 +29,6 @@
             <label for="duration">Duration (days)</label>
             <input id="duration" name="duration" type="date" required placeholder="Order duration" ><br>
             <label for="cost">Receipt cost</label>
-<%--            <c:choose>--%>
-<%--                <c:when test="${option.value().equals('WITH_A_DRIVER')}">--%>
-<%--                    <input id="cost" name="cost" type="text" value="${car.getCost() += 100}$" readonly><br>--%>
-<%--                </c:when>--%>
-<%--                <c:otherwise>--%>
-<%--                    <input id="cost" name="cost" type="text" value="${car.getCost()}$" readonly><br>--%>
-<%--                </c:otherwise>--%>
-<%--            </c:choose>--%>
             <input id="cost" name="cost" type="text" value="${car.getCost()}$" readonly><br>
             <br>
             <button type="submit">Take order</button>

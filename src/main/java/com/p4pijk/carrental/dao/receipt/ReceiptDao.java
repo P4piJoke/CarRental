@@ -11,9 +11,15 @@ public interface ReceiptDao extends DAO<Receipt> {
 
     List<Receipt> getRecipesByStatus(int statusId);
 
-    void approveReceipt(long approveId, long userId, double cost, long statusId);
+    void receiptTransaction(long orderId, long userId, double cost, long statusId);
 
 //    void repairPayment(long paymentId, long userId);
 
     void closeOrder(long closeOrderId, long userId);
+
+    void returnReceipt(long returnId, int statusId);
+
+    void setRejectComment(long id, String comm, long statusId);
+
+    void setActiveRepair(long orderId, double repairBill, long statusId);
 }

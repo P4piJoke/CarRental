@@ -29,15 +29,10 @@ public class ReceiptService {
         return receiptDao.getRecipesByStatus(statusId);
     }
 
-    public void approveReceiptById(long approveId, long userId, double cost, long statusId) {
-        log.info("Approving receipt by id");
-        receiptDao.approveReceipt(approveId, userId, cost, statusId);
+    public void doReceiptTransaction(long orderId, long userId, double cost, long statusId) {
+        log.info("Do receipt transaction");
+        receiptDao.receiptTransaction(orderId, userId, cost, statusId);
     }
-
-//    public void payRepairById(long paymentId, long userId, double cost, long statusID) {
-//        log.info("Pay for repair by order id");
-//        receiptDao.repairPayment(paymentId, userId);
-//    }
 
     public void closeOrderById(long closeOrderId, long statusID) {
         log.info("Closing order by id");
@@ -47,5 +42,20 @@ public class ReceiptService {
     public Receipt getReceiptById(long receiptId) {
         log.info("Getting receipt by id");
         return receiptDao.get(receiptId);
+    }
+
+    public void returnCarById(long returnId, int statusId) {
+        log.info("Returning ordered car by id");
+        receiptDao.returnReceipt(returnId, statusId);
+    }
+
+    public void setRejectCommById(long id, String comm, long statusId) {
+        log.info("Setting reject comment by id");
+        receiptDao.setRejectComment(id, comm, statusId);
+    }
+
+    public void setActiveForRepairPayment(long orderId, double repairBill, long statusId) {
+        log.info("Make order active for repair payment");
+        receiptDao.setActiveRepair(orderId, repairBill, statusId);
     }
 }

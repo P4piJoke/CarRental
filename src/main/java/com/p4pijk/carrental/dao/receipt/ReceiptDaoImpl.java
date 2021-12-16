@@ -128,7 +128,7 @@ public class ReceiptDaoImpl implements ReceiptDao {
     }
 
     @Override
-    public void approveReceipt(long approveId, long userId, double cost, long statusId) {
+    public void receiptTransaction(long orderId, long userId, double cost, long statusId) {
         try (PreparedStatement paymentStatement =
                      connection.prepareStatement(QUERY.DO_PAYMENT.query());
              PreparedStatement statusStatement
@@ -139,13 +139,12 @@ public class ReceiptDaoImpl implements ReceiptDao {
             paymentStatement.execute();
 
             statusStatement.setLong(1, statusId);
-            statusStatement.setLong(2, approveId);
+            statusStatement.setLong(2, orderId);
             statusStatement.execute();
             connection.commit();
             log.info("Transaction was successful");
         } catch (SQLException exception) {
             try {
-                log.error("Receipt approving was failed");
                 log.error("Transaction was failed and did rollback");
                 connection.rollback();
             } catch (SQLException e) {
@@ -168,6 +167,47 @@ public class ReceiptDaoImpl implements ReceiptDao {
             log.info("Order closing was successful");
         } catch (SQLException exception) {
             log.error("Closing was failed");
+        }
+    }
+
+    @Override
+    public void returnReceipt(long returnId, int statusId) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(QUERY.SET_RECEIPT_STATUS.query())) {
+            statement.setLong(1, statusId);
+            statement.setLong(2, returnId);
+            statement.execute();
+            log.info("Returning was successful");
+        } catch (SQLException exception) {
+            log.error(exception);
+        }
+    }
+
+    @Override
+    public void setRejectComment(long id, String comm, long statusId) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(QUERY.MAKE_ORDER_REJECTED.query())) {
+            statement.setLong(1, statusId);
+            statement.setString(2, comm);
+            statement.setLong(3, id);
+            statement.execute();
+            log.info("Setting reject comment was successful");
+        } catch (SQLException exception) {
+            log.error("Setting reject comment was failed");
+        }
+    }
+
+    @Override
+    public void setActiveRepair(long orderId, double repairBill, long statusId) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(QUERY.MAKE_ORDER_REPAIR_ACTIVE.query())) {
+            statement.setLong(1, statusId);
+            statement.setDouble(2, repairBill);
+            statement.setLong(3, orderId);
+            statement.execute();
+            log.info("Making order active for repair payment was successful");
+        } catch (SQLException exception) {
+            log.error(exception);
         }
     }
 

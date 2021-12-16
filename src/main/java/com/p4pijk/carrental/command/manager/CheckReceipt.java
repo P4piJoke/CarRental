@@ -51,7 +51,7 @@ public class CheckReceipt implements ServletCommand {
     private void approveReceipt(long approveId) {
         log.info("Approving order");
         Receipt receipt = receiptService.getReceiptById(approveId);
-        receiptService.approveReceiptById(approveId, receipt.getUserId(),
+        receiptService.doReceiptTransaction(approveId, receipt.getUserId(),
                 receipt.getBillCost(), OrderStatus.ACTIVE.ordinal());
         log.info("Approving was successful");
     }

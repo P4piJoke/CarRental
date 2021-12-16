@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `car_rental_db`.`user` (
     FOREIGN KEY (`role_id`)
     REFERENCES `car_rental_db`.`user_role` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 39
+AUTO_INCREMENT = 41
 DEFAULT CHARACTER SET = utf8mb3;
 
 
@@ -143,11 +143,11 @@ CREATE TABLE IF NOT EXISTS `car_rental_db`.`receipt` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `car_id` INT NOT NULL,
-  `passport` INT UNSIGNED NOT NULL,
+  `passport` INT NOT NULL,
   `option_id` INT NOT NULL,
   `rent_duration` DATE NOT NULL,
   `status_id` INT NOT NULL,
-  `receipt_comm` TEXT NULL DEFAULT NULL,
+  `receipt_comm` VARCHAR(255) NULL DEFAULT NULL,
   `bill_cost` DECIMAL(9,2) UNSIGNED ZEROFILL NOT NULL,
   `remont_bill` DECIMAL(9,2) UNSIGNED ZEROFILL NOT NULL,
   PRIMARY KEY (`id`),
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `car_rental_db`.`receipt` (
     FOREIGN KEY (`user_id`)
     REFERENCES `car_rental_db`.`user` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10
+AUTO_INCREMENT = 16
 DEFAULT CHARACTER SET = utf8mb3;
 
 

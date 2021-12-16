@@ -49,6 +49,7 @@
                         <c:out value="${active}"/>
                         <c:choose>
                             <c:when test="${active.getRepairBill() > 0}">
+                                <c:out value="Repair: ${active.getRepairBill()}"/>
                                 <button type="submit" name="repair" value="${active.getId()}">Pay repair</button>
                             </c:when>
                             <c:otherwise>
