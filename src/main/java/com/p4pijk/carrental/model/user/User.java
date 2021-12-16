@@ -1,9 +1,9 @@
 package com.p4pijk.carrental.model.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Builder
 @NoArgsConstructor
@@ -23,6 +23,6 @@ public class User {
 
     @Override
     public String toString() {
-        return name + ' ' + surname + ' ' + email + ' ' /*+ userRole*/ + ' ' + ((status)?"Active":"Blocked");
+        return name + ' ' + surname + ' ' + email + ' ' /*+ userRole*/ + ' ' + ((status) ? "Active" : "Blocked");
     }
 }

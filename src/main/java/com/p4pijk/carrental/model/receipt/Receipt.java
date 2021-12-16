@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class Receipt {
+
     private long id;
     private long userId;
     private long carId;
@@ -23,13 +24,9 @@ public class Receipt {
 
     @Override
     public String toString() {
-        return "Receipt{" +
-                "id=" + id +
-                ", passport=" + passport +
-                ", rentOption=" + rentOption +
-                ", duration='" + duration + '\'' +
-                ", orderStatus=" + orderStatus +
-                ", billCost=" + billCost +
-                '}';
+        return "№" + id + " "
+                + rentOption
+                + " To: " + duration
+                + " Cost: " + billCost;
     }
 }

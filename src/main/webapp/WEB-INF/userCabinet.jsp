@@ -30,14 +30,60 @@
             <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCAxMmMwIDYuNjI3IDUuMzczIDEyIDEyIDEyczEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyLTEyIDUuMzczLTEyIDEyem0xOC0xaC00djdoLTR2LTdoLTRsNi02IDYgNnoiLz48L3N2Zz4=" alt="Top up">
         </a>
     </p>
-    <table>
-        <c:forEach items="${recipes}" var = "rec">
-            <tr>
-                <td>
-                    <c:out value="${rec}"/>
-                </td>
-            </tr>
-        </c:forEach>
-    </table>
+    <form action="${pageContext.request.contextPath}/receiptAction" method="post">
+        <label for="pending"><strong>Pending recipes</strong></label>
+        <table id="pending">
+            <c:forEach items="${pending}" var = "pending">
+                <tr>
+                    <td>
+                        <c:out value="${pending}"/>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table> <br>
+        <label for="active"><strong>Active recipes</strong></label>
+        <table id="active">
+            <c:forEach items="${active}" var = "active">
+                <tr>
+                    <td>
+                        <c:out value="${active}"/>
+                        <c:choose>
+                            <c:when test="${active.getRepairBill() > 0}">
+                                <button type="submit" name="repair" value="${active.getId()}">Pay repair</button>
+                            </c:when>
+                            <c:otherwise>
+                                <button type="submit" name="return" value="${active.getId()}">Return car</button>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table> <br>
+        <label for="rejected"><strong>Rejected recipes</strong></label>
+        <table id="rejected">
+            <c:forEach items="${rejected}" var = "rejected">
+                <c:choose>
+                    <c:when test="${rejected != null}">
+                        <tr>
+                            <td>
+                                <c:out value="${rejected}"/>
+                                <a href="${pageContext.request.contextPath}/checkComment?orderId=${rejected.getId()}">Check comment</a>
+                            </td>
+                        </tr>
+                    </c:when>
+                </c:choose>
+            </c:forEach>
+        </table> <br>
+        <label for="closed"><strong>Closed recipes</strong></label>
+        <table id="closed">
+            <c:forEach items="${closed}" var = "closed">
+                <tr>
+                    <td>
+                        <c:out value="${closed}"/>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </form>
 </body>
 </html>

@@ -7,7 +7,13 @@ import java.util.List;
 
 public interface ReceiptDao extends DAO<Receipt> {
 
-    List<Receipt> getRecipes(long userId);
+    List<Receipt> getUserRecipes(long userId, int statusId);
 
     List<Receipt> getRecipesByStatus(int statusId);
+
+    void approveReceipt(long approveId, long userId, double cost, long statusId);
+
+//    void repairPayment(long paymentId, long userId);
+
+    void closeOrder(long closeOrderId, long userId);
 }

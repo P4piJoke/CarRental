@@ -52,6 +52,14 @@ public class SignUpCommand implements ServletCommand {
         return newUser[0] != null && newUser[1] != null
                 && newUser[2] != null && newUser[3] != null
                 && newUser[4] != null && newUser[5] != null
-                && newUser[5].equals(newUser[4]);
+                && newUser[5].equals(newUser[4])
+                && checkUserLogin(newUser[3]) == null;
     }
+
+    private User checkUserLogin(String login) {
+        log.info("Making verification for unique login");
+        return userService.checkUserLogin(login);
+    }
+
+
 }

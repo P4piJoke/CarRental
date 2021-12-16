@@ -10,4 +10,6 @@ public interface UserDao extends DAO<User> {
     boolean topUpBalance(long userId, double balance);
 
     boolean changeStatus(long userId, boolean status);
+
+    User checkLogin(String s);
 }

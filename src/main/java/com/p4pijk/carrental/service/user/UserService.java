@@ -44,4 +44,9 @@ public class UserService {
         log.info("Change user status by id and status");
         return userDao.changeStatus(userId, status);
     }
+
+    public User checkUserLogin(String login) {
+        log.info("Checking user login for unique");
+        return userDao.checkLogin(login);
+    }
 }

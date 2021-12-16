@@ -74,5 +74,4 @@ public class UserUtil {
         String confirm_password = req.getParameter("confirm_password");
         return new String[]{name, surname, email, login, password, confirm_password};
     }
-
 }

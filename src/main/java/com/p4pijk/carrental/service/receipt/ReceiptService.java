@@ -19,13 +19,33 @@ public class ReceiptService {
         return receipt != null && receiptDao.save(receipt).getId() != -1;
     }
 
-    public List<Receipt> getRecipesByUserId(long userId) {
-        log.info("Getting recipes by user id");
-        return receiptDao.getRecipes(userId);
+    public List<Receipt> getRecipesByUserIdAndStatus(long userId, int statusId) {
+        log.info("Getting recipes by user id and status");
+        return receiptDao.getUserRecipes(userId, statusId);
     }
 
     public List<Receipt> getRecipesByStatus(int statusId) {
         log.info("Getting recipes by status");
         return receiptDao.getRecipesByStatus(statusId);
+    }
+
+    public void approveReceiptById(long approveId, long userId, double cost, long statusId) {
+        log.info("Approving receipt by id");
+        receiptDao.approveReceipt(approveId, userId, cost, statusId);
+    }
+
+//    public void payRepairById(long paymentId, long userId, double cost, long statusID) {
+//        log.info("Pay for repair by order id");
+//        receiptDao.repairPayment(paymentId, userId);
+//    }
+
+    public void closeOrderById(long closeOrderId, long statusID) {
+        log.info("Closing order by id");
+        receiptDao.closeOrder(closeOrderId, statusID);
+    }
+
+    public Receipt getReceiptById(long receiptId) {
+        log.info("Getting receipt by id");
+        return receiptDao.get(receiptId);
     }
 }

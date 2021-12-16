@@ -7,21 +7,24 @@ import com.p4pijk.carrental.command.getcommands.AddManagerGetCommand;
 import com.p4pijk.carrental.command.getcommands.AddNewCarGetCommand;
 import com.p4pijk.carrental.command.getcommands.EditCarGetCommand;
 import com.p4pijk.carrental.command.getcommands.GetCarByClass;
-import com.p4pijk.carrental.command.getcommands.GetCarByMark;
-import com.p4pijk.carrental.command.getcommands.GoToUserCabinet;
-import com.p4pijk.carrental.command.getcommands.LogoutGetCommand;
-import com.p4pijk.carrental.command.getcommands.SignUpGetCommand;
 import com.p4pijk.carrental.command.getcommands.GetCarByCostCE;
 import com.p4pijk.carrental.command.getcommands.GetCarByCostEC;
+import com.p4pijk.carrental.command.getcommands.GetCarByMark;
 import com.p4pijk.carrental.command.getcommands.GetCarByNameAZ;
 import com.p4pijk.carrental.command.getcommands.GetCarByNameZA;
+import com.p4pijk.carrental.command.getcommands.GoToUserCabinet;
+import com.p4pijk.carrental.command.getcommands.LoginGetCommand;
+import com.p4pijk.carrental.command.getcommands.LogoutGetCommand;
+import com.p4pijk.carrental.command.getcommands.SignUpGetCommand;
 import com.p4pijk.carrental.command.getcommands.TakeOrderGetCommand;
 import com.p4pijk.carrental.command.getcommands.TopUpGetCommand;
+import com.p4pijk.carrental.command.manager.CheckReceipt;
+import com.p4pijk.carrental.command.manager.ManagerPage;
 import com.p4pijk.carrental.command.postcommands.AddManagerCommand;
 import com.p4pijk.carrental.command.postcommands.AddNewCarCommand;
 import com.p4pijk.carrental.command.postcommands.EditCarCommand;
 import com.p4pijk.carrental.command.postcommands.LoginCommand;
-import com.p4pijk.carrental.command.getcommands.LoginGetCommand;
+import com.p4pijk.carrental.command.postcommands.ReceiptAction;
 import com.p4pijk.carrental.command.postcommands.SignUpCommand;
 import com.p4pijk.carrental.command.postcommands.TakeOrderCommand;
 import com.p4pijk.carrental.command.postcommands.TopUpCommand;
@@ -45,6 +48,7 @@ public class CommandManager {
         getCommands.put("/login", new LoginGetCommand());
         getCommands.put("/signup", new SignUpGetCommand());
         getCommands.put("/admin", new AdminPage());
+        getCommands.put("/manager", new ManagerPage());
         getCommands.put("/logout", new LogoutGetCommand());
         getCommands.put("/getCarByMark", new GetCarByMark());
         getCommands.put("/getCarByClass", new GetCarByClass());
@@ -66,9 +70,11 @@ public class CommandManager {
         postCommands.put("/editCar", new EditCarCommand());
         postCommands.put("/deleteCar", new DeleteCar());
         postCommands.put("/addManager", new AddManagerCommand());
-        postCommands.put("/takeOrder",new TakeOrderCommand());
+        postCommands.put("/takeOrder", new TakeOrderCommand());
         postCommands.put("/topUp", new TopUpCommand());
         postCommands.put("/changeStatus", new ChangeUserStatus());
+        postCommands.put("/receiptAction", new ReceiptAction());
+        postCommands.put("/checkReceipt", new CheckReceipt());
     }
 
     public ServletCommand getGetCommand(HttpServletRequest req) {

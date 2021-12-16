@@ -35,5 +35,4 @@ public class CarUtil {
                 .status(true)
                 .build();
     }
-
 }

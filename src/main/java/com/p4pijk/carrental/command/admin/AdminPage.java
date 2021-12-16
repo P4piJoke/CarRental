@@ -31,11 +31,11 @@ public class AdminPage implements ServletCommand {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
+        log.info("Executing admin page get command");
         List<Car> cars = carService.getAllCars();
         req.setAttribute("cars", cars);
         List<User> users = userService.getAllUsers();
         req.setAttribute("users", users);
-        log.info("Executing admin page get command");
         return adminPage;
     }
 }

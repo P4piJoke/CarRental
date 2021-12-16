@@ -69,12 +69,12 @@ public class CarService {
         return carDao.getCarsByNameZA();
     }
 
-    public List<Car> getCarsByCostEC(){
+    public List<Car> getCarsByCostEC() {
         log.info("Sorting car by cost E-c");
         return carDao.getCarsByCostEC();
     }
 
-    public List<Car> getCarsByCostCE(){
+    public List<Car> getCarsByCostCE() {
         log.info("Sorting car by cost c-E");
         return carDao.getCarsByCostCE();
     }

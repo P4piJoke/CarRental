@@ -3,16 +3,15 @@ package com.p4pijk.carrental.command.getcommands;
 import com.p4pijk.carrental.command.ServletCommand;
 import com.p4pijk.carrental.dao.receipt.ReceiptDaoImpl;
 import com.p4pijk.carrental.dao.user.UserDaoImpl;
-import com.p4pijk.carrental.model.receipt.Receipt;
 import com.p4pijk.carrental.model.user.User;
 import com.p4pijk.carrental.service.receipt.ReceiptService;
 import com.p4pijk.carrental.service.user.UserService;
 import com.p4pijk.carrental.util.MappingProperties;
+import com.p4pijk.carrental.util.ReceiptUtil;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 public class GoToUserCabinet implements ServletCommand {
 
@@ -38,11 +37,10 @@ public class GoToUserCabinet implements ServletCommand {
 
         long userId = Long.parseLong(req.getParameter("userId"));
         User userById = userService.getUserById(userId);
-        List<Receipt> receiptList = receiptService.getRecipesByUserId(userId);
+
         if (userById != null) {
             log.info("Redirecting to user cabinet");
-            req.setAttribute("user", userById);
-            req.setAttribute("recipes", receiptList);
+            ReceiptUtil.setRecipesAttributes(req, receiptService, userId);
             resultPage = userCabinet;
         }
         return resultPage;

@@ -2,18 +2,16 @@ package com.p4pijk.carrental.command.getcommands;
 
 import com.p4pijk.carrental.command.ServletCommand;
 import com.p4pijk.carrental.dao.car.CarDaoImpl;
-import com.p4pijk.carrental.dao.receipt.ReceiptDao;
 import com.p4pijk.carrental.dao.receipt.ReceiptDaoImpl;
 import com.p4pijk.carrental.dao.user.UserDaoImpl;
 import com.p4pijk.carrental.model.car.Car;
-import com.p4pijk.carrental.model.receipt.OrderStatus;
-import com.p4pijk.carrental.model.receipt.Receipt;
 import com.p4pijk.carrental.model.user.User;
 import com.p4pijk.carrental.service.car.CarService;
 import com.p4pijk.carrental.service.receipt.ReceiptService;
 import com.p4pijk.carrental.service.user.UserService;
 import com.p4pijk.carrental.util.CarUtil;
 import com.p4pijk.carrental.util.MappingProperties;
+import com.p4pijk.carrental.util.ReceiptUtil;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +54,7 @@ public class LoginGetCommand implements ServletCommand {
 
             if (session.getAttribute("role") != null) {
                 CarUtil.setFilterToSession(req);
+
                 log.info("Return all cars info");
                 List<Car> cars = carService.getAllAvailableCars();
                 req.setAttribute("cars", cars);
@@ -64,13 +63,9 @@ public class LoginGetCommand implements ServletCommand {
                     List<User> users = userService.getAllUsers();
                     req.setAttribute("users", users);
                     resultPage = adminPage;
+
                 } else if (session.getAttribute("role").equals("manager")) {
-                    List<Receipt> pendingRecipes =
-                            receiptService.getRecipesByStatus(OrderStatus.PENDING.ordinal());
-                    List<Receipt> paidRecipes =
-                            receiptService.getRecipesByStatus(OrderStatus.PAID.ordinal());
-                    List<Receipt> returnedRecipes =
-                            receiptService.getRecipesByStatus(OrderStatus.RETURNED.ordinal());
+                    ReceiptUtil.setRecipesAttributes(req, receiptService);
                     resultPage = managerPage;
                 }
             }

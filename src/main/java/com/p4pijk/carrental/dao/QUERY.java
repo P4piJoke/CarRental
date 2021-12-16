@@ -19,6 +19,11 @@ public enum QUERY {
     CHANGE_USER_STATUS("UPDATE user SET " +
             "user_status = ? " +
             "WHERE id = ?"),
+    CHECK_USER("SELECT * FROM user " +
+            "WHERE login = ?"),
+    TOP_UP("UPDATE user " +
+            "SET user_balance = user_balance + ? " +
+            "WHERE id = ?"),
 
     // Car queries
     CREATE_CAR("INSERT INTO car SET " +
@@ -46,6 +51,7 @@ public enum QUERY {
     DELETE_CAR("DELETE FROM car WHERE id = ?"),
 
     // Receipt queries
+    GET_RECEIPT("SELECT * FROM receipt WHERE id = ?"),
     CREATE_RECEIPT("INSERT INTO receipt SET " +
             "user_id = ?, " +
             "car_id = ?, " +
@@ -56,12 +62,16 @@ public enum QUERY {
             "receipt_comm = ?, " +
             "bill_cost = ?, " +
             "remont_bill = ?"),
-    GET_RECIPES("SELECT * FROM receipt WHERE user_id = ?"),
+    GET_USER_RECIPES("SELECT * FROM receipt " +
+            "WHERE user_id = ? " +
+            "AND status_id = ?"),
     GET_RECIPES_BY_STATUS("SELECT * FROM receipt " +
             "WHERE status_id = ?"),
-
-    TOP_UP("UPDATE user " +
-            "SET user_balance = user_balance + ? " +
+    DO_PAYMENT("UPDATE user SET " +
+            "user_balance = user_balance - ? " +
+            "WHERE id = ?"),
+    SET_RECEIPT_STATUS("UPDATE receipt SET " +
+            "status_id = ? " +
             "WHERE id = ?");
 
 

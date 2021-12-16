@@ -7,7 +7,6 @@ import com.p4pijk.carrental.util.UserUtil;
 import org.apache.log4j.Logger;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -82,6 +81,19 @@ public class UserDaoImpl implements UserDao {
     public User get(long id) {
         try (PreparedStatement statement = connection.prepareStatement(QUERY.GET_USER.query())) {
             statement.setLong(1, id);
+            statement.execute();
+            return getUserFromResultSet(statement.getResultSet());
+        } catch (SQLException exception) {
+            log.error(exception);
+        }
+        return null;
+    }
+
+    @Override
+    public User checkLogin(String login) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(QUERY.CHECK_USER.query())) {
+            statement.setString(1, login);
             statement.execute();
             return getUserFromResultSet(statement.getResultSet());
         } catch (SQLException exception) {

@@ -2,15 +2,16 @@ package com.p4pijk.carrental.command.postcommands;
 
 import com.p4pijk.carrental.command.ServletCommand;
 import com.p4pijk.carrental.dao.car.CarDaoImpl;
+import com.p4pijk.carrental.dao.receipt.ReceiptDaoImpl;
 import com.p4pijk.carrental.dao.user.UserDaoImpl;
 import com.p4pijk.carrental.model.car.Car;
-import com.p4pijk.carrental.model.car.CarClass;
-import com.p4pijk.carrental.model.car.CarMark;
 import com.p4pijk.carrental.model.user.User;
 import com.p4pijk.carrental.service.car.CarService;
+import com.p4pijk.carrental.service.receipt.ReceiptService;
 import com.p4pijk.carrental.service.user.UserService;
 import com.p4pijk.carrental.util.CarUtil;
 import com.p4pijk.carrental.util.MappingProperties;
+import com.p4pijk.carrental.util.ReceiptUtil;
 import com.p4pijk.carrental.util.UserUtil;
 import org.apache.log4j.Logger;
 
@@ -22,15 +23,17 @@ public class LoginCommand implements ServletCommand {
 
     private static final Logger log = Logger.getLogger(LoginCommand.class);
     private static UserService userService;
+    private final CarService carService;
+    private final ReceiptService receiptService;
     private static String loginPage;
     private static String mainPage;
     private static String adminPage;
     private static String managerPage;
-    private final CarService carService;
 
     public LoginCommand() {
         userService = new UserService(UserDaoImpl.getInstance());
         carService = new CarService(CarDaoImpl.getInstance());
+        receiptService = new ReceiptService(ReceiptDaoImpl.getInstance());
 
         MappingProperties properties = MappingProperties.getInstance();
         loginPage = properties.getProperty("loginPagePost");
@@ -63,6 +66,7 @@ public class LoginCommand implements ServletCommand {
                         break;
                     case MANAGER:
                         log.info("Redirecting to manager page");
+                        ReceiptUtil.setRecipesAttributes(req, receiptService);
                         resultPage = managerPage;
                         break;
                     case ADMIN:
@@ -79,6 +83,4 @@ public class LoginCommand implements ServletCommand {
         }
         return resultPage;
     }
-
-
 }

@@ -5,6 +5,7 @@ import com.p4pijk.carrental.dao.QUERY;
 import com.p4pijk.carrental.model.receipt.Receipt;
 import com.p4pijk.carrental.util.ReceiptUtil;
 import org.apache.log4j.Logger;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -73,29 +74,38 @@ public class ReceiptDaoImpl implements ReceiptDao {
 
     @Override
     public void update(Receipt receipt, String[] params) {
-
+        throw new NotImplementedException();
     }
 
     @Override
     public Receipt get(long id) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(QUERY.GET_RECEIPT.query())) {
+            statement.setLong(1, id);
+            statement.execute();
+            return getReceiptFromResultSet(statement.getResultSet());
+        } catch (SQLException exception) {
+            log.error(exception);
+        }
         return null;
     }
 
     @Override
     public void delete(Receipt receipt) {
-
+        throw new NotImplementedException();
     }
 
     @Override
     public List<Receipt> getAll() {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
-    public List<Receipt> getRecipes(long userId) {
+    public List<Receipt> getUserRecipes(long userId, int statusId) {
         try (PreparedStatement statement =
-                     connection.prepareStatement(QUERY.GET_RECIPES.query())) {
+                     connection.prepareStatement(QUERY.GET_USER_RECIPES.query())) {
             statement.setLong(1, userId);
+            statement.setLong(2, statusId);
             statement.execute();
             return getRecipesFromResultSet(statement.getResultSet());
         } catch (SQLException exception) {
@@ -115,6 +125,50 @@ public class ReceiptDaoImpl implements ReceiptDao {
             log.error(exception);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public void approveReceipt(long approveId, long userId, double cost, long statusId) {
+        try (PreparedStatement paymentStatement =
+                     connection.prepareStatement(QUERY.DO_PAYMENT.query());
+             PreparedStatement statusStatement
+                     = connection.prepareStatement(QUERY.SET_RECEIPT_STATUS.query())) {
+            connection.setAutoCommit(false);
+            paymentStatement.setDouble(1, cost);
+            paymentStatement.setLong(2, userId);
+            paymentStatement.execute();
+
+            statusStatement.setLong(1, statusId);
+            statusStatement.setLong(2, approveId);
+            statusStatement.execute();
+            connection.commit();
+            log.info("Transaction was successful");
+        } catch (SQLException exception) {
+            try {
+                log.error("Receipt approving was failed");
+                log.error("Transaction was failed and did rollback");
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error("Transaction rollback was failed");
+            }
+        }
+    }
+
+//    @Override
+//    public void repairPayment(long paymentId, long userId) {
+//    }
+
+    @Override
+    public void closeOrder(long closeOrderId, long statusId) {
+        try (PreparedStatement statement =
+                     connection.prepareStatement(QUERY.SET_RECEIPT_STATUS.query())) {
+            statement.setLong(1, statusId);
+            statement.setLong(2, closeOrderId);
+            statement.execute();
+            log.info("Order closing was successful");
+        } catch (SQLException exception) {
+            log.error("Closing was failed");
+        }
     }
 
     private List<Receipt> getRecipesFromResultSet(ResultSet resultSet) {
